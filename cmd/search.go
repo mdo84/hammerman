@@ -14,7 +14,11 @@
 package cmd
 
 import (
+	"crypto/tls"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 
 	"github.com/spf13/cobra"
 )
@@ -25,7 +29,21 @@ var searchCmd = &cobra.Command{
 	Short: "searching the api",
 	Long:  `a long description of searching the api.. - tbd. `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("search called")
+		var username = "admin"
+		var passwd = "password"
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+		client := &http.Client{Transport: tr}
+		req, err := http.NewRequest("GET", "https://foreman.example.com/users/login", nil)
+		req.SetBasicAuth(username, passwd)
+		resp, err := client.Do(req)
+		if err != nil {
+			log.Fatal(err)
+		}
+		bodyText, err := ioutil.ReadAll(resp.Body)
+		s := string(bodyText)
+		fmt.Println(s)
 	},
 }
 
