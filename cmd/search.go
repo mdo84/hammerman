@@ -35,7 +35,7 @@ var searchCmd = &cobra.Command{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		}
 		client := &http.Client{Transport: tr}
-		req, err := http.NewRequest("GET", "https://foreman.example.com/users/login", nil)
+		req, err := http.NewRequest("GET", "https://foreman.localdomain/api/hosts", nil)
 		req.SetBasicAuth(username, passwd)
 		resp, err := client.Do(req)
 		if err != nil {
