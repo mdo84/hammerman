@@ -15,13 +15,26 @@ package cmd
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
+	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"net/http"
-
-	"github.com/spf13/cobra"
 )
+
+type Response struct {
+	total   string `json:"total"`
+	results Result `json:"results"`
+}
+
+type Result struct {
+	name string `json:"name"`
+	ip   string `json:"ip"`
+	env  string `json:"env"`
+}
+
+const query = "https://foreman.localdomain/api/hosts?search=core3.localdomain"
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
@@ -30,23 +43,27 @@ var searchCmd = &cobra.Command{
 	Long:  `a long description of searching the api.. - tbd. `,
 	Run: func(cmd *cobra.Command, args []string) {
 		var username = "admin"
-		var passwd = "password"
+		var passwd = "ZyuzuDEHeTSkcAkp"
 		tr := &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		}
 		client := &http.Client{Transport: tr}
-		req, err := http.NewRequest("GET", "https://foreman.localdomain/api/hosts", nil)
+		req, err := http.NewRequest("GET", query, nil)
 		req.SetBasicAuth(username, passwd)
 		resp, err := client.Do(req)
 		if err != nil {
 			log.Fatal(err)
 		}
-		bodyText, err := ioutil.ReadAll(resp.Body)
+		data, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
 		}
-		s := string(bodyText)
-		fmt.Println(s)
+		output := Response{}
+		err = json.Unmarshal(data, &output)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		fmt.Printf("%s", output)
 	},
 }
 
