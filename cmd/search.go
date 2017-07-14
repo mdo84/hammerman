@@ -42,6 +42,9 @@ var searchCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 		bodyText, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			panic(err.Error())
+		}
 		s := string(bodyText)
 		fmt.Println(s)
 	},
