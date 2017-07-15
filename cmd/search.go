@@ -24,14 +24,14 @@ import (
 )
 
 type Response struct {
-	total   string `json:"total"`
-	results Result `json:"results"`
+	Total   int `json:"total"`
+	Results Result `json:"results"`
 }
 
 type Result struct {
-	name string `json:"name"`
-	ip   string `json:"ip"`
-	env  string `json:"env"`
+	Name string `json:"name"`
+	IP   string `json:"ip"`
+	Env  string `json:"env"`
 }
 
 const query = "https://foreman.localdomain/api/hosts?search=core3.localdomain"
