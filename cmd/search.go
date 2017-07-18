@@ -130,9 +130,13 @@ var searchCmd = &cobra.Command{
 		}
 		fmt.Println(dat.Total)
 		for i := range dat.Results {
-			fmt.Println(dat.Results[i].IP)
+			formatOutput(dat.Results[i].Name, dat.Results[i].IP)
 		}
 	},
+}
+
+func formatOutput(name, ip string) {
+	fmt.Printf(" %30s %20s \n", name, ip)
 }
 
 func init() {
