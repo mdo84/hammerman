@@ -109,7 +109,7 @@ var searchCmd = &cobra.Command{
 	Long:  `a long description of searching the api.. - tbd. `,
 	Run: func(cmd *cobra.Command, args []string) {
 		var username = "admin"
-		var passwd = "ZyuzuDEHeTSkcAkp"
+		var passwd = "ywBbUwpw6Kw2rZxN"
 		tr := &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		}
@@ -136,7 +136,8 @@ var searchCmd = &cobra.Command{
 }
 
 func formatOutput(name, ip string) {
-	fmt.Printf(" %30s %20s \n", name, ip)
+	//	fmt.Printf(" %-30s %-20s \n", name, ip)
+	fmt.Printf("|%6s|%6s|\n", name, ip)
 }
 
 func init() {
