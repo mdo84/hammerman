@@ -1,0 +1,3 @@
+url: "https://foreman.localdomain/api/hosts"
+username: "admin"
+password: "password"
